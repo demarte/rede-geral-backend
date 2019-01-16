@@ -1,4 +1,4 @@
-package br.com.eptv.midias;
+package br.com.eptv.redegeral.tests;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

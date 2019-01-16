@@ -1,6 +1,5 @@
 package br.com.eptv.redegeral.security.config;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -15,48 +14,31 @@ import br.com.eptv.redegeral.security.filter.JWTAuthenticationFilter;
 import br.com.eptv.redegeral.security.filter.JWTAuthorizationFilter;
 import br.com.eptv.redegeral.security.service.CustomUserDetailsService;
 
-
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-	
+
 	@Autowired
 	private CustomUserDetailsService userDetailsService;
-		
+
 	@Override
-    protected void configure(HttpSecurity httpSecurity) throws Exception {
-		
-		httpSecurity
-		    .cors().configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues())
-		    .and()
-			.csrf().disable()			
-			.authorizeRequests()			
-		    .anyRequest().authenticated()
-		    .and()
-			.addFilter(new JWTAuthenticationFilter(authenticationManager()))
-		    .addFilter(new JWTAuthorizationFilter(authenticationManager(), userDetailsService));
+	protected void configure(HttpSecurity httpSecurity) throws Exception {
+
+		httpSecurity.cors().configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues()).and()
+				.csrf().disable().authorizeRequests().anyRequest().authenticated().and()
+				.addFilter(new JWTAuthenticationFilter(authenticationManager()))
+				.addFilter(new JWTAuthorizationFilter(authenticationManager(), userDetailsService));
 	}
-	
-//	@Bean
-//	CorsConfigurationSource corsConfigurationSource() {
-//		CorsConfiguration configuration = new CorsConfiguration();
-//		configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200"));
-//		configuration.setAllowedMethods(Arrays.asList("GET","POST", "PUT", "DELETE"));
-//		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-//		source.registerCorsConfiguration("/**", configuration);
-//		return source;
-//	}
-	
-	
-	
+
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-	  
-		auth.userDetailsService(userDetailsService)
-			.passwordEncoder(new BCryptPasswordEncoder()); //como o password esta criptografado no banco
-	
+
+		auth.userDetailsService(userDetailsService).passwordEncoder(new BCryptPasswordEncoder()); // como o password
+																									// esta
+																									// criptografado no
+																									// banco
 	}
-	
-	@Override //exclui o path /connection dos filtros 
+
+	@Override // exclui o path /connection dos filtros
 	public void configure(WebSecurity web) throws Exception {
 		web.ignoring().antMatchers(HttpMethod.GET, "/connection/**");
 	}

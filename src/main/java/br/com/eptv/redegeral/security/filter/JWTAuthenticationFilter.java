@@ -55,7 +55,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 							.signWith(SignatureAlgorithm.HS256, Constants.SECRET)
 							.compact();
 		token = Constants.TOKEN_PREFIX + token;
-		response.getWriter().write(token);
+		//response.getWriter().write(token);
 		response.addHeader("Content-Type", "Text");
 		response.addHeader(Constants.HEADER, token);
 		

@@ -1,7 +1,10 @@
 package br.com.eptv.redegeral.models;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotEmpty;
 
@@ -22,20 +25,30 @@ public class Conexao extends AbstractEntity{
 	//@NotEmpty
 	@OneToOne
 	private Switch sw;
+	@ManyToMany
+	private List<Vlan> untags;
+	@ManyToMany
+	private List<Vlan> tags;
 	
 
 	public Conexao() {
 		
 	}
 	
-	public Conexao(@NotEmpty String porta, String tipo, Equipamento equipamento,  Switch sw) {
+	
+	public Conexao(@NotEmpty String porta, String tipo, String interfaceDeRede, Equipamento equipamento, Switch sw,
+			List<Vlan> untags, List<Vlan> tags) {
 		super();
 		this.porta = porta;
 		this.tipo = tipo;
+		this.interfaceDeRede = interfaceDeRede;
 		this.equipamento = equipamento;
 		this.sw = sw;
+		this.untags = untags;
+		this.tags = tags;
 	}
-	
+
+
 	public String getPorta() {
 		return porta;
 	}
@@ -68,5 +81,19 @@ public class Conexao extends AbstractEntity{
 	public void setSw(Switch sw) {
 		this.sw = sw;
 	}
+	public List<Vlan> getUntags() {
+		return untags;
+	}
+	public void setUntags(List<Vlan> untags) {
+		this.untags = untags;
+	}
+	public List<Vlan> getTags() {
+		return tags;
+	}
+
+	public void setTags(List<Vlan> tags) {
+		this.tags = tags;
+	}
+	
 
 }

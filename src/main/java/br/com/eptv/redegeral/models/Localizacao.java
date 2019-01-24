@@ -4,12 +4,14 @@ import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.Max;
 import javax.validation.constraints.NotEmpty;
 
 @Entity(name="localizacoes")
 public class Localizacao extends AbstractEntity {
 
-	@NotEmpty(message="a localizacao está vazia")
+	@NotEmpty(message="a localizacao não pode ser vazia")
+	@Max(30)
 	private String localizacao;
 	@OneToMany(mappedBy="localizacao")
 	private List<Switch> sw;

@@ -8,4 +8,6 @@ public interface UsuarioRepository extends PagingAndSortingRepository<Usuario, L
 
 	Usuario findByLogin(String login);
 	
+	boolean existsByLogin(String login); 
+	
 }
